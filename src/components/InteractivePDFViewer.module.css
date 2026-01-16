@@ -1,0 +1,121 @@
+.viewerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #525659;
+    padding: 20px;
+    min-height: 80vh;
+}
+
+.controls {
+    background: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.controls button {
+    background: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.controls button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.zoomControls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-left: 1px solid #ddd;
+    padding-left: 15px;
+    margin-left: 5px;
+}
+
+.pdfWrapper {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    background: transparent;
+    display: flex;
+    justify-content: center;
+}
+
+.document {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.pageContainer {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+    height: fit-content;
+    line-height: 0;
+    margin: 0 auto;
+}
+
+/* Ensure react-pdf internal wrapper doesn't add space */
+:global(.react-pdf__Page) {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-block !important;
+}
+
+.pdfPage {
+    display: inline-block;
+    line-height: 0;
+}
+
+/* Ensure React-PDF page renders correctly */
+.pdfPage canvas {
+    display: block;
+    /* max-width is omitted to ensure the container always matches the canvas resolution for precise percentage mapping */
+}
+
+.mappedArea {
+    position: absolute;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid transparent;
+    transition: all 0.1s ease-in-out;
+    z-index: 100;
+    overflow: hidden;
+    pointer-events: all;
+}
+
+.mappedArea:hover {
+    background: rgba(74, 144, 226, 0.15);
+    border: 1px solid #4a90e2;
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.4);
+}
+
+/* When there is NO image snippet, show a subtle hint that it's clickable */
+.mappedArea:not(:has(img)) {
+    background: rgba(74, 144, 226, 0.03);
+    border: 1px dashed rgba(74, 144, 226, 0.1);
+}
+
+.mappedArea:not(:has(img)):hover {
+    background: rgba(74, 144, 226, 0.15);
+    border: 1px solid #4a90e2;
+}
+
+.areaSnippet {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 1;
+    /* Keep article snippets crisp */
+    object-fit: fill;
+}

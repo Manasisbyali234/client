@@ -1,0 +1,53 @@
+import { createContext, useState, useEffect, useContext } from 'react';
+import axios from '../axiosConfig';
+
+const AuthContext = createContext();
+
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const checkUser = async () => {
+            try {
+                const { data } = await axios.get('/api/auth/check');
+                if (data.authenticated) {
+                    const profile = await axios.get('/api/auth/profile');
+                    setUser(profile.data);
+                } else {
+                    setUser(null);
+                }
+            } catch (error) {
+                setUser(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+        checkUser();
+    }, []);
+
+    const login = async (email, password) => {
+        const { data } = await axios.post('/api/auth/login', { email, password });
+        setUser(data);
+        return data;
+    };
+
+    const register = async (name, email, password) => {
+        const { data } = await axios.post('/api/auth/register', { name, email, password });
+        setUser(data);
+        return data;
+    };
+
+    const logout = async () => {
+        await axios.post('/api/auth/logout');
+        setUser(null);
+    };
+
+    return (
+        <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
