@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import styles from './NewsAPIFeed.module.css';
 
 const NewsAPIFeed = () => {

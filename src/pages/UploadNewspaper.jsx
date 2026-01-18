@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import * as pdfjs from 'pdfjs-dist';
 import styles from './UploadNewspaper.module.css';
 

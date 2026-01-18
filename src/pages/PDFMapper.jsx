@@ -9,7 +9,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     import.meta.url,
 ).toString();
 
-import axios from 'axios';
+import axios from '../axiosConfig';
 import styles from './PDFMapper.module.css';
 
 // We might need to handle fabric import differently depending on version installed.
