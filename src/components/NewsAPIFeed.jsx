@@ -11,43 +11,11 @@ const NewsAPIFeed = () => {
         const fetchNews = async () => {
             setLoading(true);
             try {
-                // In a real app, this call should go through your backend to hide the API KEY
-                // or use a free public endpoint for demo.
-                // Using a placeholder response for now as I don't have a valid API Key.
-                // const { data } = await axios.get(`https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=YOUR_API_KEY`);
-
-                // MOCK DATA
-                const mockData = [
-                    {
-                        title: "Local Development Projects Announced",
-                        description: "The city council has approved a new series of infrastructure projects starting next month.",
-                        urlToImage: "https://placehold.co/300x200/4A90E2/ffffff?text=Development",
-                        url: "#",
-                        source: { name: "Raichur Times" }
-                    },
-                    {
-                        title: "Farmers Expect Record Harvest",
-                        description: "Favorable monsoon rains have led to predictions of record crop yields in the district.",
-                        urlToImage: "https://placehold.co/300x200/4A90E2/ffffff?text=Agriculture",
-                        url: "#",
-                        source: { name: "State News" }
-                    },
-                    {
-                        title: "Tech Park to Open New Wing",
-                        description: "The local technology park is expanding with a new wing dedicated to AI startups.",
-                        urlToImage: "https://placehold.co/300x200/4A90E2/ffffff?text=Tech+Park",
-                        url: "#",
-                        source: { name: "Tech Daily" }
-                    }
-                ];
-
-                setTimeout(() => {
-                    setArticles(mockData);
-                    setLoading(false);
-                }, 1000);
-
+                const { data } = await axios.get(`/api/user/external-news?category=${category}`);
+                setArticles(data.articles || []);
             } catch (error) {
                 console.error("Error fetching news", error);
+            } finally {
                 setLoading(false);
             }
         };
