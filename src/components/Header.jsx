@@ -13,11 +13,12 @@ const Header = () => {
 
     return (
         <header className={styles.header}>
-            <div className={styles.logo} onClick={() => navigate('/')}>
-                Raichuru Belaku
+            <div className={styles.bannerContainer} onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                <img src="/image.png" alt="Raichuru Belaku Banner" className={styles.bannerImage} />
             </div>
             <nav className={styles.nav}>
-                {user ? (
+                <div id="google_translate_element" className={styles.translateWidget}></div>
+                {user && (
                     <>
                         {user.role === 'admin' && (
                             <button onClick={() => navigate('/admin/dashboard')} className={styles.navLink}>
@@ -26,11 +27,6 @@ const Header = () => {
                         )}
                         <span className={styles.userName}>Hello, {user.name}</span>
                         <button onClick={handleLogout} className={styles.logoutBtn}>Logout</button>
-                    </>
-                ) : (
-                    <>
-                        <button onClick={() => navigate('/login')} className={styles.navLink}>Login</button>
-                        <button onClick={() => navigate('/register')} className={styles.registerBtn}>Register</button>
                     </>
                 )}
             </nav>

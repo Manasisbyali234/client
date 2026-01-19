@@ -1,10 +1,10 @@
 .viewerContainer {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     align-items: center;
-    background: #525659;
-    padding: 20px;
-    min-height: 80vh;
+    background: transparent;
+    padding: 0;
+    min-width: 100%;
 }
 
 .controls {
@@ -42,9 +42,9 @@
 
 .pdfWrapper {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    background: transparent;
-    display: flex;
-    justify-content: center;
+    background: white;
+    display: inline-block;
+    position: relative;
 }
 
 .document {
@@ -67,17 +67,24 @@
     margin: 0 !important;
     padding: 0 !important;
     display: inline-block !important;
+    position: relative !important;
+    vertical-align: top;
 }
 
 .pdfPage {
     display: inline-block;
     line-height: 0;
+    position: relative;
 }
 
 /* Ensure React-PDF page renders correctly */
-.pdfPage canvas {
+.pdfPage canvas,
+.pdfPage svg {
     display: block;
-    /* max-width is omitted to ensure the container always matches the canvas resolution for precise percentage mapping */
+    width: 100% !important;
+    height: auto !important;
+    image-rendering: auto;
+    -webkit-font-smoothing: antialiased;
 }
 
 .mappedArea {

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from '../axiosConfig';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -15,7 +15,6 @@ import styles from './NewspaperViewer.module.css';
 
 const NewspaperViewer = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
     const { user } = useAuth();
 
     // State
@@ -27,7 +26,22 @@ const NewspaperViewer = () => {
     const [pageNumber, setPageNumber] = useState(1);
     const [numPages, setNumPages] = useState(0);
     const [scale, setScale] = useState(1.0);
+    const [containerWidth, setContainerWidth] = useState(0);
     const [selectedArea, setSelectedArea] = useState(null);
+
+    const viewerRef = useRef(null);
+
+    useEffect(() => {
+        const updateWidth = () => {
+            if (viewerRef.current) {
+                setContainerWidth(viewerRef.current.clientWidth);
+            }
+        };
+
+        updateWidth();
+        window.addEventListener('resize', updateWidth);
+        return () => window.removeEventListener('resize', updateWidth);
+    }, [loading]);
 
     useEffect(() => {
         const fetchNewspaper = async () => {
@@ -147,7 +161,7 @@ const NewspaperViewer = () => {
                 </div>
 
                 {/* Viewer */}
-                <div className={styles.viewerArea}>
+                <div className={styles.viewerArea} ref={viewerRef}>
 
                     {/* Floating Arrows */}
                     {pageNumber > 1 && (
@@ -162,6 +176,7 @@ const NewspaperViewer = () => {
                         onAreaClick={setSelectedArea}
                         pageNumber={pageNumber}
                         scale={scale}
+                        width={containerWidth}
                         onDocumentLoadSuccess={handleDocumentLoadSuccess}
                     />
 

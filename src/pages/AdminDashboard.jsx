@@ -11,10 +11,6 @@ const AdminDashboard = () => {
     });
     const [newspapers, setNewspapers] = useState([]);
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
     const fetchData = async () => {
         try {
             const { data } = await axios.get('/api/admin/newspapers');
@@ -33,6 +29,10 @@ const AdminDashboard = () => {
             console.error("Error fetching admin data", error);
         }
     };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const togglePublish = async (id) => {
         try {

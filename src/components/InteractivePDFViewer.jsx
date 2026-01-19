@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import styles from './InteractivePDFViewer.module.css';
 
@@ -13,6 +13,7 @@ const InteractivePDFViewer = ({
     onAreaClick,
     pageNumber = 1,
     scale = 1.0,
+    width,
     onDocumentLoadSuccess
 }) => {
     const [pdfData, setPdfData] = useState(null);
@@ -90,41 +91,50 @@ const InteractivePDFViewer = ({
                         <Page
                             pageNumber={pageNumber}
                             scale={scale}
+                            width={width}
                             renderTextLayer={false}
                             renderAnnotationLayer={false}
                             renderMode="canvas"
+                            devicePixelRatio={2}
                             className={styles.pdfPage}
-                        />
-                        {/* Overlay Mapped Areas */}
-                        {currentAreas.map((area, index) => {
-                            if (area.extractedImageUrl) {
-                                console.log(`Applying area "${area.headline}" at ${area.coordinates.x}% , ${area.coordinates.y}%`);
-                            }
-                            return (
-                                <div
-                                    key={index}
-                                    className={styles.mappedArea}
-                                    style={{
-                                        width: `${area.coordinates.width}%`,
-                                        height: `${area.coordinates.height}%`,
-                                        left: `${Number(area.coordinates.x).toFixed(4)}%`,
-                                        top: `${Number(area.coordinates.y).toFixed(4)}%`,
-                                        zIndex: 100 + index
-                                    }}
-                                    onClick={() => onAreaClick(area)}
-                                    title={area.headline}
-                                >
-                                    {area.extractedImageUrl && (
-                                        <img
-                                            src={area.extractedImageUrl}
-                                            alt=""
-                                            className={styles.areaSnippet}
-                                            style={{ width: '100%', height: '100%', objectFit: 'fill' }}
-                                        />
-                                    )}
-                                </div>
-                            );
-                        })}
+                            onLoadSuccess={(page) => {
+                                console.log(`Page ${pageNumber} loaded:`, page.width, page.height);
+                            }}
+                        >
+                            {/* Overlay Mapped Areas as children of Page */}
+                            {currentAreas.map((area, index) => {
+                                if (area.extractedImageUrl) {
+                                    console.log(`Applying area "${area.headline}" at ${area.coordinates.x}% , ${area.coordinates.y}%`);
+                                }
+                                return (
+                                    <div
+                                        key={index}
+                                        className={styles.mappedArea}
+                                        style={{
+                                            width: `${area.coordinates.width}%`,
+                                            height: `${area.coordinates.height}%`,
+                                            left: `${Number(area.coordinates.x).toFixed(4)}%`,
+                                            top: `${Number(area.coordinates.y).toFixed(4)}%`,
+                                            zIndex: 100 + index
+                                        }}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onAreaClick(area);
+                                        }}
+                                        title={area.headline}
+                                    >
+                                        {area.extractedImageUrl && (
+                                            <img
+                                                src={area.extractedImageUrl}
+                                                alt=""
+                                                className={styles.areaSnippet}
+                                                style={{ width: '100%', height: '100%', objectFit: 'fill' }}
+                                            />
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </Page>
                     </div>
                 </Document>
             </div>

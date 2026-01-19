@@ -161,13 +161,10 @@
     flex: 1;
     position: relative;
     overflow: auto;
-    /* Allow scrolling if zoomed */
     background: #525659;
-    /* PDF viewer standard dark data-background */
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
+    display: block; /* Changed from flex to block for better scrolling behavior */
+    padding: 20px 0;
+    text-align: center; /* Center inline-block children */
 }
 
 /* Floating Navigation Arrows */

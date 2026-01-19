@@ -5,7 +5,7 @@ import 'react-pdf/dist/Page/TextLayer.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-const PDFThumbnail = ({ pdfUrl, alt }) => {
+const PDFThumbnail = ({ pdfUrl, alt, width = 400 }) => {
     const [error, setError] = useState(false);
 
     if (error) {
@@ -18,7 +18,13 @@ const PDFThumbnail = ({ pdfUrl, alt }) => {
             onLoadError={() => setError(true)}
             loading={<div>Loading...</div>}
         >
-            <Page pageNumber={1} width={200} renderTextLayer={false} renderAnnotationLayer={false} />
+            <Page 
+                pageNumber={1} 
+                width={width} 
+                devicePixelRatio={2}
+                renderTextLayer={false} 
+                renderAnnotationLayer={false} 
+            />
         </Document>
     );
 };
