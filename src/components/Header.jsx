@@ -18,7 +18,7 @@ const Header = () => {
             </div>
             <nav className={styles.nav}>
                 <div id="google_translate_element" className={styles.translateWidget}></div>
-                {user && (
+                {user ? (
                     <>
                         {user.role === 'admin' && (
                             <button onClick={() => navigate('/admin/dashboard')} className={styles.navLink}>
@@ -28,6 +28,10 @@ const Header = () => {
                         <span className={styles.userName}>Hello, {user.name}</span>
                         <button onClick={handleLogout} className={styles.logoutBtn}>Logout</button>
                     </>
+                ) : (
+                    <button onClick={() => navigate('/login')} className={styles.loginBtn}>
+                        Login
+                    </button>
                 )}
             </nav>
         </header>

@@ -69,6 +69,24 @@
     background: #333;
 }
 
+.loginBtn {
+    background: #111;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 0;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background 0.3s;
+}
+
+.loginBtn:hover {
+    background: #333;
+}
+
 .logoutBtn {
     background: transparent;
     color: #e74c3c;
